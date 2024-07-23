@@ -26,17 +26,17 @@ public class AuthenticationService {
 
     public User signup(RegisterUserDto input) {
         User user = new User();
-        user.setFullName(input.getFullName());
-        user.setEmail(input.getEmail());
-        user.setPassword(passwordEncoder.encode(input.getPassword()));
+        user.setFullName(input.fullName());
+        user.setEmail(input.email());
+        user.setPassword(passwordEncoder.encode(input.password()));
 
         return userRepository.save(user);
     }
 
     public User authenticate(LoginUserDto input) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(input.getEmail(), input.getPassword()));
+                new UsernamePasswordAuthenticationToken(input.email(), input.password()));
 
-        return userRepository.findByEmail(input.getEmail()).orElseThrow();
+        return userRepository.findByEmail(input.email()).orElseThrow();
     }
 }
